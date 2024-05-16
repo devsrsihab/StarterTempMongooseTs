@@ -1,4 +1,3 @@
-
 // 1. Create an interface representing a document in MongoDB.
 
 // gurdian

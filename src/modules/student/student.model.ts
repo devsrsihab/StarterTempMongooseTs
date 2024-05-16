@@ -1,39 +1,39 @@
 import { model, Schema } from 'mongoose';
-import {  Gurdian, LocalGurdian, Student, UserName } from './student.interface';
+import { Gurdian, LocalGurdian, Student, UserName } from './student.interface';
 
 // username schema
 const UserNameSchema = new Schema<UserName>({
-    firstName: {
-      type: String,
-      required: true,
-    },
-    middleName: {
-      type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
-    },
-  },)
+  firstName: {
+    type: String,
+    required: true,
+  },
+  middleName: {
+    type: String,
+    required: true,
+  },
+  lastName: {
+    type: String,
+    required: true,
+  },
+});
 
 // gurdian schema
 const GurdianSchema = new Schema<Gurdian>({
-    fatherName: { type: String, required: true },
-    fatherOccupation: { type: String, required: true },
-    fatherContactNo: { type: String, required: true },
-    motherName: { type: String, required: true },
-    motherContactNo: { type: String, required: true },
-    motherOccupation: { type: String, required: true },
-  })  
+  fatherName: { type: String, required: true },
+  fatherOccupation: { type: String, required: true },
+  fatherContactNo: { type: String, required: true },
+  motherName: { type: String, required: true },
+  motherContactNo: { type: String, required: true },
+  motherOccupation: { type: String, required: true },
+});
 
 // local gurdian schema
 const LocalGurdianSchema = new Schema<LocalGurdian>({
-    name: { type: String, required: true },
-    occupation: { type: String, required: true },
-    contact: { type: String, required: true },
-    address: { type: String, required: true },
-  })  
+  name: { type: String, required: true },
+  occupation: { type: String, required: true },
+  contact: { type: String, required: true },
+  address: { type: String, required: true },
+});
 
 // Studdent schema
 const studentSchmea = new Schema<Student>({
@@ -53,5 +53,5 @@ const studentSchmea = new Schema<Student>({
   isActive: ['active', 'inactive'],
 });
 
-// Studen Model 
+// Studen Model
 export const StudentModel = model<Student>('Student', studentSchmea);
