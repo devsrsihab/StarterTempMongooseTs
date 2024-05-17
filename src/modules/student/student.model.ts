@@ -39,10 +39,17 @@ const LocalGurdianSchema = new Schema<LocalGurdian>({
 const studentSchmea = new Schema<Student>({
   id: { type: String },
   name: UserNameSchema,
-  gender: ['male', 'female'],
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+    required: true,
+  },
   dateOfBirth: { type: String },
   email: { type: String, required: true },
-  bloodGroup: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  bloodGroup: {
+    type: String,
+    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+  },
   contactNo: { type: String, required: true },
   emergencyContact: { type: String, required: true },
   presentAddress: { type: String, required: true },
@@ -50,7 +57,11 @@ const studentSchmea = new Schema<Student>({
   gurdian: GurdianSchema,
   localGurdian: LocalGurdianSchema,
   profileImg: { type: String },
-  isActive: ['active', 'inactive'],
+  isActive: {
+    type: String,
+    enum: ['active', 'inactive'],
+    default: 'active'
+  },
 });
 
 // Studen Model
