@@ -5,64 +5,110 @@ import { Gurdian, LocalGurdian, Student, UserName } from './student.interface';
 const UserNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
-    required: true,
+    required: [true, 'First name is required'],
+    maxlength: [20, 'First name should not exceed 20 characters'],
+    trim: true, // remove extra spaces
   },
   middleName: {
     type: String,
-    required: true,
+    maxlength: [20, 'Middle name should not exceed 20 characters'],
+    trim: true,
   },
   lastName: {
     type: String,
-    required: true,
+    required: [true, 'Last name is required'],
+    maxlength: [20, 'Last name should not exceed 20 characters'],
+    trim: true,
   },
 });
 
-// gurdian schema
+// guardian schema
 const GurdianSchema = new Schema<Gurdian>({
-  fatherName: { type: String, required: true },
+  fatherName: {
+    type: String,
+    required: true,
+    maxlength: [20, 'Father name should not exceed 20 characters'],
+    trim: true,
+  },
   fatherOccupation: { type: String, required: true },
-  fatherContactNo: { type: String, required: true },
-  motherName: { type: String, required: true },
-  motherContactNo: { type: String, required: true },
+  fatherContactNo: {
+    type: String,
+    required: true,
+  },
+  motherName: {
+    type: String,
+    required: true,
+    maxlength: [20, 'Mother name should not exceed 20 characters'],
+    trim: true,
+  },
+  motherContactNo: {
+    type: String,
+    required: true,
+  },
   motherOccupation: { type: String, required: true },
 });
 
-// local gurdian schema
+// local guardian schema
 const LocalGurdianSchema = new Schema<LocalGurdian>({
-  name: { type: String, required: true },
+  name: {
+    type: String,
+    required: true,
+    maxlength: [20, 'Name should not exceed 20 characters'],
+    trim: true,
+  },
   occupation: { type: String, required: true },
-  contact: { type: String, required: true },
+  contact: {
+    type: String,
+    required: true,
+  },
   address: { type: String, required: true },
 });
 
-// Studdent schema
-const studentSchmea = new Schema<Student>({
-  id: { type: String },
-  name: UserNameSchema,
+// student schema
+const studentSchema = new Schema<Student>({
+  id: { type: String, required: true, unique: true },
+  name: { type: UserNameSchema, required: true },
   gender: {
     type: String,
-    enum: ['male', 'female'],
     required: true,
+    enum: {
+      values: ['male', 'female', 'other'],
+      message: "{VALUE} is not valid. Allowed values are 'male', 'female', or 'other'",
+    },
   },
   dateOfBirth: { type: String },
-  email: { type: String, required: true },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   bloodGroup: {
     type: String,
-    enum: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+    enum: {
+      values: ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'],
+      message:
+        "{VALUE} is not valid. Allowed values are 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'",
+    },
   },
-  contactNo: { type: String, required: true },
-  emergencyContact: { type: String, required: true },
+  contactNo: {
+    type: String,
+    required: true,
+  },
+  emergencyContact: {
+    type: String,
+    required: true,
+  },
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
-  gurdian: GurdianSchema,
-  localGurdian: LocalGurdianSchema,
+  guardian: { type: GurdianSchema, required: true },
+  localGuardian: { type: LocalGurdianSchema},
   profileImg: { type: String },
   isActive: {
     type: String,
     enum: ['active', 'inactive'],
-    default: 'active'
+    default: 'active',
   },
 });
 
-// Studen Model
-export const StudentModel = model<Student>('Student', studentSchmea);
+// student model
+export const StudentModel = model<Student>('Student', studentSchema);

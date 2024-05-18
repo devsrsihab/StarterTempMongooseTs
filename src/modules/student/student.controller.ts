@@ -1,20 +1,27 @@
 import { Request, Response } from 'express';
 import { StudentServices } from './student.service';
+import StudentValidationSchema from './student.validation';
 
 // student create controller
 const createStudent = async (req: Request, res: Response) => {
   try {
     const { student: studetnData } = req.body;
+    const zodParseData = StudentValidationSchema.parse(studetnData);
+    const result = await StudentServices.createStudentToDB(zodParseData);
 
-    const result = await StudentServices.createStudentToDB(studetnData);
+
 
     res.status(200).json({
-      status: true,
+      success: true,
       message: 'student created successfully',
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: error,
+    });
   }
 };
 
@@ -28,7 +35,11 @@ const getStudent = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: error,
+    });
   }
 };
 
@@ -43,7 +54,11 @@ const getSingleStudent = async (req: Request, res: Response) => {
       data: result || 'no data found',
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: 'something went wrong',
+      error: error,
+    });
   }
 };
 

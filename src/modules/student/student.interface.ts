@@ -31,7 +31,7 @@ export type LocalGurdian = {
 export type Student = {
   id: string;
   name: UserName;
-  gender: 'male' | 'female';
+  gender: 'male' | 'female' | 'other';
   dateOfBirth: string;
   email: string;
   contactNo: string;
@@ -39,8 +39,14 @@ export type Student = {
   bloodGroup?: BloodGroup;
   presentAddress: string;
   permanentAddress: string;
-  gurdian: Gurdian;
-  localGurdian?: LocalGurdian;
+  guardian: Gurdian;
+  localGuardian?: LocalGurdian;
   profileImg?: string;
   isActive: 'active' | 'inactive';
 };
+
+
+
+
+
+
