@@ -1,12 +1,8 @@
-import { model, Schema } from 'mongoose';
-import {
-  TGurdian,
-  TLocalGurdian,
-  TStudent,
-  TUserName,
-  StudentModel,
+import bcrypt from 'bcrypt';
 
-} from './student.interface';
+import { model, Schema } from 'mongoose';
+import { TGurdian, TLocalGurdian, TStudent, TUserName, StudentModel } from './student.interface';
+import config from '../../config';
 
 // username schema
 const UserNameSchema = new Schema<TUserName>({
@@ -75,6 +71,7 @@ const LocalGurdianSchema = new Schema<TLocalGurdian>({
 const studentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, required: true, unique: true },
   name: { type: UserNameSchema, required: true },
+  password: { type: String, required: true },
   gender: {
     type: String,
     required: true,
@@ -117,15 +114,28 @@ const studentSchema = new Schema<TStudent, StudentModel>({
   },
 });
 
+// pre middleware / hook: we will work ot it create() save()
+studentSchema.pre('save',async function (next) {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const user = this;
+    //hasing password
+    user.password = await bcrypt.hash(user.password, Number(config.bcrypt_salt_rounds));
+    // next step 
+    next()
+    console.log('Before saving document...');
+  },
+);
 
+// post middleware / hook: we will work ot it create() save()
+studentSchema.post('save', function () {
+  console.log('After saving document...');
+});
 
-// custom static method 
+// custom static method
 studentSchema.statics.isUserExist = async function (id: string) {
-  const existUser = await Student.findOne({ id })
-  return existUser
-}
-
-
+  const existUser = await Student.findOne({ id });
+  return existUser;
+};
 
 // custom instance methods
 // studentSchema.methods.isUserExist = async function(id:string) {
@@ -134,7 +144,6 @@ studentSchema.statics.isUserExist = async function (id: string) {
 //     return existUser
 
 // }
-
 
 // student model
 export const Student = model<TStudent, StudentModel>('Student', studentSchema);

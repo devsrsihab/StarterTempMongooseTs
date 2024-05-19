@@ -27,6 +27,7 @@ const LocalGuardianValidationSchema = z.object({
 const StudentValidationSchema = z.object({
   id: z.string().min(1), // Ensure minimum 1 character
   name: UserNameValidationSchema,
+  password: z.string().min(8).max(30),
   gender: z.enum(['male', 'female', 'other']),
   dateOfBirth: z.string(), // Consider adding validation for date format if needed
   email: z.string().email(),

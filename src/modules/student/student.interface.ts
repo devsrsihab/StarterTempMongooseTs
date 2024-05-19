@@ -32,6 +32,7 @@ export type TLocalGurdian = {
 
 export type TStudent = {
   id: string;
+  password: string;
   name: TUserName;
   gender: 'male' | 'female' | 'other';
   dateOfBirth: string;
@@ -50,7 +51,8 @@ export type TStudent = {
 
 // for custom static method
 export interface StudentModel extends Model<TStudent> {
-  isUserExist(id: string) : Promise<TStudent | null> 
+  // eslint-disable-next-line no-unused-vars
+  isUserExist(id: string): Promise<TStudent | null>;
 }
 
 
