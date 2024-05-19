@@ -1,8 +1,8 @@
 import Joi from 'joi';
-import { UserName, Gurdian, LocalGurdian, Student } from './student.interface';
+import { TUserName, TGurdian, TLocalGurdian, TStudent } from './student.interface';
 
 // Username validation schema
-const UserNameSchema = Joi.object<UserName>({
+const UserNameSchema = Joi.object<TUserName>({
   firstName: Joi.string()
     .max(20)
     .trim()
@@ -34,7 +34,7 @@ const UserNameSchema = Joi.object<UserName>({
 });
 
 // Guardian validation schema
-const GurdianSchema = Joi.object<Gurdian>({
+const GurdianSchema = Joi.object<TGurdian>({
   fatherName: Joi.string()
     .max(20)
     .trim()
@@ -78,7 +78,7 @@ const GurdianSchema = Joi.object<Gurdian>({
 });
 
 // Local Guardian validation schema
-const LocalGurdianSchema = Joi.object<LocalGurdian>({
+const LocalGurdianSchema = Joi.object<TLocalGurdian>({
   name: Joi.string()
     .max(20)
     .trim()
@@ -105,7 +105,7 @@ const LocalGurdianSchema = Joi.object<LocalGurdian>({
 });
 
 // Student validation schema
-const StudentValidatorSchema = Joi.object<Student>({
+const StudentValidatorSchema = Joi.object<TStudent>({
   id: Joi.string().required().messages({
     'any.required': 'ID is required',
   }),

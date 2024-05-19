@@ -1,8 +1,15 @@
 import { model, Schema } from 'mongoose';
-import { Gurdian, LocalGurdian, Student, UserName } from './student.interface';
+import {
+  TGurdian,
+  TLocalGurdian,
+  TStudent,
+  TUserName,
+  StudentModel,
+
+} from './student.interface';
 
 // username schema
-const UserNameSchema = new Schema<UserName>({
+const UserNameSchema = new Schema<TUserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
@@ -23,7 +30,7 @@ const UserNameSchema = new Schema<UserName>({
 });
 
 // guardian schema
-const GurdianSchema = new Schema<Gurdian>({
+const GurdianSchema = new Schema<TGurdian>({
   fatherName: {
     type: String,
     required: true,
@@ -49,7 +56,7 @@ const GurdianSchema = new Schema<Gurdian>({
 });
 
 // local guardian schema
-const LocalGurdianSchema = new Schema<LocalGurdian>({
+const LocalGurdianSchema = new Schema<TLocalGurdian>({
   name: {
     type: String,
     required: true,
@@ -65,7 +72,7 @@ const LocalGurdianSchema = new Schema<LocalGurdian>({
 });
 
 // student schema
-const studentSchema = new Schema<Student>({
+const studentSchema = new Schema<TStudent, StudentModel>({
   id: { type: String, required: true, unique: true },
   name: { type: UserNameSchema, required: true },
   gender: {
@@ -101,7 +108,7 @@ const studentSchema = new Schema<Student>({
   presentAddress: { type: String, required: true },
   permanentAddress: { type: String, required: true },
   guardian: { type: GurdianSchema, required: true },
-  localGuardian: { type: LocalGurdianSchema},
+  localGuardian: { type: LocalGurdianSchema },
   profileImg: { type: String },
   isActive: {
     type: String,
@@ -110,5 +117,24 @@ const studentSchema = new Schema<Student>({
   },
 });
 
+
+
+// custom static method 
+studentSchema.statics.isUserExist = async function (id: string) {
+  const existUser = await Student.findOne({ id })
+  return existUser
+}
+
+
+
+// custom instance methods
+// studentSchema.methods.isUserExist = async function(id:string) {
+//     const existUser = await Student.findOne({id})
+
+//     return existUser
+
+// }
+
+
 // student model
-export const StudentModel = model<Student>('Student', studentSchema);
+export const Student = model<TStudent, StudentModel>('Student', studentSchema);
